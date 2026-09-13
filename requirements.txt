@@ -1,0 +1,4 @@
+zabbix_utils
+networkx
+scipy
+matplotlib
