@@ -17,78 +17,78 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
 - しかし、zabbix-AutoMapper は一部のパラメータがハードコードされているなど、
   僕にとっては少し扱いづらかった。
 - とりあえず動くようにするパッチはこちら。
-``` diff
---- zabbix-AutoMapper/createEnv.py	2026-09-10 14:59:30
-+++ zabbix-AutoMapper-mk/createEnv.py	2026-09-02 11:08:38
-@@ -18,11 +18,22 @@
- 
- 
- def create_host(host_name, type="server", link="", host_group="",ip="",link_label=""):
-+
-+    # please create 'automap' template by hand prior to run this code.
-+    automap_templates = api.template.get(filter={'name': 'automap'})
-+    if len(automap_templates) == 1:
-+        automap_template = automap_templates[0]
-+        automap_template_id = automap_template['templateid']
-+        print(f'automap_template_id: {automap_template_id}')
-+    else:
-+        print('automap template not exits.')
-+        exit(2)
-+
-     result = api.host.create({
-         "host": host_name,
-                 "templates": [
-             {
--                "templateid": "11267"
-+                "templateid": automap_template_id
-             }
-         ],
-         "interfaces": [
-@@ -75,14 +86,29 @@
- 
- def delete_hosts_from_host_group(hostgroup_id):
-     hosts = get_list_hosts_from_host_group(hostgroup_id)
--    host_array=[host["hostid"] for host in hosts]
- 
--    result = api.host.delete(*host_array)
-+    print(f'hosts in automap host group: {hosts}.')
-+    for host in hosts:
-+        host_id = host['hostid']
-+        api.host.delete([host_id])
- 
-+    ### host_array=[host["hostid"] for host in hosts]
-+
-+    ### result = api.host.delete(*host_array)
-+
-     return True
- 
- 
--host_group_id = 38
-+### host_group_id = 38
-+automap_hostgroups = api.hostgroup.get(filter={'name': ['automap']})
-+if len(automap_hostgroups) == 1:
-+    automap_hostgroup = automap_hostgroups[0]
-+    host_group_id = automap_hostgroup['groupid']
-+    print(f'automap host group id: {host_group_id}')
-+else:
-+    print('cannot get automap host group.')
-+    exit(1)
-+
- delete_hosts_from_host_group(host_group_id)
- 
- for i in range(1, 41):
---- zabbix-AutoMapper/automapLib/zabbix.py	2026-09-10 14:59:30
-+++ zabbix-AutoMapper-mk/automapLib/zabbix.py	2026-09-02 11:45:28
-@@ -24,7 +24,7 @@
- 
-     def create_api(self):
-         self.logger.info(f"create zabbix api")
--        self.api = ZabbixAPI(url=self.zabbix_url, token=self.zabbix_token, skip_version_check=True)
-+        self.api = ZabbixAPI(url=self.zabbix_url, token=self.zabbix_token, skip_version_check=True, validate_certs=False)
- 
-     def get_hosts_in_host_group_name(self, host_group_name) -> list[Host]:
-         groupid = self.get_host_group_from_name(host_group_name)
-```
+  ``` diff
+  --- zabbix-AutoMapper/createEnv.py	2026-09-10 14:59:30
+  +++ zabbix-AutoMapper-mk/createEnv.py	2026-09-02 11:08:38
+  @@ -18,11 +18,22 @@
+   
+   
+   def create_host(host_name, type="server", link="", host_group="",ip="",link_label=""):
+  +
+  +    # please create 'automap' template by hand prior to run this code.
+  +    automap_templates = api.template.get(filter={'name': 'automap'})
+  +    if len(automap_templates) == 1:
+  +        automap_template = automap_templates[0]
+  +        automap_template_id = automap_template['templateid']
+  +        print(f'automap_template_id: {automap_template_id}')
+  +    else:
+  +        print('automap template not exits.')
+  +        exit(2)
+  +
+       result = api.host.create({
+           "host": host_name,
+                   "templates": [
+               {
+  -                "templateid": "11267"
+  +                "templateid": automap_template_id
+               }
+           ],
+           "interfaces": [
+  @@ -75,14 +86,29 @@
+   
+   def delete_hosts_from_host_group(hostgroup_id):
+       hosts = get_list_hosts_from_host_group(hostgroup_id)
+  -    host_array=[host["hostid"] for host in hosts]
+   
+  -    result = api.host.delete(*host_array)
+  +    print(f'hosts in automap host group: {hosts}.')
+  +    for host in hosts:
+  +        host_id = host['hostid']
+  +        api.host.delete([host_id])
+   
+  +    ### host_array=[host["hostid"] for host in hosts]
+  +
+  +    ### result = api.host.delete(*host_array)
+  +
+       return True
+   
+   
+  -host_group_id = 38
+  +### host_group_id = 38
+  +automap_hostgroups = api.hostgroup.get(filter={'name': ['automap']})
+  +if len(automap_hostgroups) == 1:
+  +    automap_hostgroup = automap_hostgroups[0]
+  +    host_group_id = automap_hostgroup['groupid']
+  +    print(f'automap host group id: {host_group_id}')
+  +else:
+  +    print('cannot get automap host group.')
+  +    exit(1)
+  +
+   delete_hosts_from_host_group(host_group_id)
+   
+   for i in range(1, 41):
+  --- zabbix-AutoMapper/automapLib/zabbix.py	2026-09-10 14:59:30
+  +++ zabbix-AutoMapper-mk/automapLib/zabbix.py	2026-09-02 11:45:28
+  @@ -24,7 +24,7 @@
+   
+       def create_api(self):
+           self.logger.info(f"create zabbix api")
+  -        self.api = ZabbixAPI(url=self.zabbix_url, token=self.zabbix_token, skip_version_check=True)
+  +        self.api = ZabbixAPI(url=self.zabbix_url, token=self.zabbix_token, skip_version_check=True, validate_certs=False)
+   
+       def get_hosts_in_host_group_name(self, host_group_name) -> list[Host]:
+           groupid = self.get_host_group_from_name(host_group_name)
+  ```
 - そこで、スクラッチから mkmap.py を書いた。
   - De Jessey さんの zabbix-AutoMapper がなければ、mkmap.py もなかっただろう。
     特に記して感謝したい。
@@ -142,41 +142,41 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
 ### mkmap.py の使い方
 
 - とりあえず、ヘルプを見てほしい。
-``` shell
-$ ./mkmap.py -h
-usage: mkmap [-h] [-z URL] [-f TOKEN_FILE] [-m MAP] [-s MAP_SIZE] [-g HOSTGROUP] [-t TAG_PREFIX] [-o OUTPUT] [-k]
-             [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-
-program for making a map on zabbix
-
-options:
-  -h, --help            show this help message and exit
-  -z, --url URL         the URL where Zabbix server locates. defaults to "https://127.0.0.1/".
-  -f, --token-file TOKEN_FILE
-                        file name which contain the token to login to the Zabbix server. defaults to "./token.txt".
-  -m, --map MAP         The Zabbix map name where the map to be drawn. defaults to "mkmap". Be cautioned this map being flushed
-                        even if it contains nodes/links, or created if not exists.
-  -s, --map-size MAP_SIZE
-                        zabbix map size, width and height joined by "x". defaults to "800x800".
-  -g, --hostgroup HOSTGROUP
-                        The hostgroup name in which hosts to be mapped in the map listed. defaults to "mkmap".
-  -t, --tag-prefix TAG_PREFIX
-                        The tag name prefix which represent node/link attributes. defaults to "mkmap". The value consists of
-                        remote node name and link label separated by semi-colomn, i.e. "<remote node>;<link label>".
-  -o, --output OUTPUT   The output file name such as "./mkmap.svg" or "./mkmap.png". will not write if not specified, and will
-                        overwrite if did.
-  -k, --no-validate-certs
-                        disable validation of the SSL/TLS certs.
-  -l, --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
-                        log level. defaults to "WARNING".
-
-copyright 2026 by moto kawasaki <moto@kawasaki3.org>
-```
+  ``` shell
+  $ ./mkmap.py -h
+  usage: mkmap [-h] [-z URL] [-f TOKEN_FILE] [-m MAP] [-s MAP_SIZE] [-g HOSTGROUP] [-t TAG_PREFIX] [-o OUTPUT] [-k]
+               [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+  
+  program for making a map on zabbix
+  
+  options:
+    -h, --help            show this help message and exit
+    -z, --url URL         the URL where Zabbix server locates. defaults to "https://127.0.0.1/".
+    -f, --token-file TOKEN_FILE
+                          file name which contain the token to login to the Zabbix server. defaults to "./token.txt".
+    -m, --map MAP         The Zabbix map name where the map to be drawn. defaults to "mkmap". Be cautioned this map being flushed
+                          even if it contains nodes/links, or created if not exists.
+    -s, --map-size MAP_SIZE
+                          zabbix map size, width and height joined by "x". defaults to "800x800".
+    -g, --hostgroup HOSTGROUP
+                          The hostgroup name in which hosts to be mapped in the map listed. defaults to "mkmap".
+    -t, --tag-prefix TAG_PREFIX
+                          The tag name prefix which represent node/link attributes. defaults to "mkmap". The value consists of
+                          remote node name and link label separated by semi-colomn, i.e. "<remote node>;<link label>".
+    -o, --output OUTPUT   The output file name such as "./mkmap.svg" or "./mkmap.png". will not write if not specified, and will
+                          overwrite if did.
+    -k, --no-validate-certs
+                          disable validation of the SSL/TLS certs.
+    -l, --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                          log level. defaults to "WARNING".
+  
+  copyright 2026 by moto kawasaki <moto@kawasaki3.org>
+  ```
 - ここまでの準備をしていれば、多分これで動く。
   `./mkmap.py -z https://zabbix.example.com/`
 - これは、デフォルト値を明示するならこういうコマンドラインになっている。
   ```
-  $ ./mkmap.py -z https://zabbix.example.com/`
+  $ ./mkmap.py -z https://zabbix.example.com/
                -f ./token.txt
                -m mkmap
                -s 800x800
