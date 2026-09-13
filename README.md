@@ -16,9 +16,7 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
   - [Youtube: Automating Network Map Generetion](https://www.youtube.com/watch?v=uAzA6cMsa7A)
 - しかし、zabbix-AutoMapper は一部のパラメータがハードコードされているなど、
   僕にとっては少し扱いづらかった。
-
-<details>
-<summary>とりあえず動くようにするパッチはこちら。</summary>
+- とりあえず動くようにするパッチはこちら。
 ``` diff
 --- zabbix-AutoMapper/createEnv.py	2026-09-10 14:59:30
 +++ zabbix-AutoMapper-mk/createEnv.py	2026-09-02 11:08:38
@@ -91,8 +89,6 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
      def get_hosts_in_host_group_name(self, host_group_name) -> list[Host]:
          groupid = self.get_host_group_from_name(host_group_name)
 ```
-<details>
-
 - そこで、スクラッチから mkmap.py を書いた。
   - De Jessey さんの zabbix-AutoMapper がなければ、mkmap.py もなかっただろう。
     特に記して感謝したい。
