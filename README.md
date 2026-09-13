@@ -97,9 +97,9 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
 
 ## 環境情報
 
-- このスクリプトは、
-- FreeBSD 15.1-RELEASE-p2 上でで
-- Ports からインストールした zabbix 7.0.28 サーバを動かし、
+このスクリプトは、
+- FreeBSD 15.1-RELEASE-p2 上で
+- Ports からインストールした Zabbix 7.0.28 サーバを動かし、
 - macOS Tahoe 26.6.2 上に MacPorts から入れた Python 3.14.7 及び
   (なるべく MacPorts から入れた) 関連する Python パッケージを使って作成された。
 
@@ -142,8 +142,6 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
 ### mkmap.py の使い方
 
 - とりあえず、ヘルプを見てほしい。
-<details>
-<summary>ヘルプはこちら</summary>
 ``` shell
 $ ./mkmap.py -h
 usage: mkmap [-h] [-z URL] [-f TOKEN_FILE] [-m MAP] [-s MAP_SIZE] [-g HOSTGROUP] [-t TAG_PREFIX] [-o OUTPUT] [-k]
@@ -174,8 +172,6 @@ options:
 
 copyright 2026 by moto kawasaki <moto@kawasaki3.org>
 ```
-</details>
-
 - ここまでの準備をしていれば、多分これで動く。
   `./mkmap.py -z https://zabbix.example.com/`
 - これは、デフォルト値を明示するならこういうコマンドラインになっている。
