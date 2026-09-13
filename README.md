@@ -89,7 +89,7 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
        def get_hosts_in_host_group_name(self, host_group_name) -> list[Host]:
            groupid = self.get_host_group_from_name(host_group_name)
   ```
-- そこで、スクラッチから mkmap.py を書いた。
+- そこで、スクラッチから [mkmap.py](./mkmap.py) を書いた。
   - De Jessey さんの zabbix-AutoMapper がなければ、mkmap.py もなかっただろう。
     特に記して感謝したい。
 - というわけで、これは、Zabbix で監視中のホスト(群)を Zabbix のマップに
@@ -109,7 +109,7 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
 - requirements.txt にある Python パッケージをインストールして、
 - 適当なディレクトリに mkmap.py を置くだけでよいはず。
   - `chmod 755` するのか `python mkmap.py` で動かすのかとか shbang の調整とか。
-- 同じディレクトリに、後述の token.txt を置く。(「Zabbix サーバ側の準備」を参照)
+- 同じディレクトリに、[token.txt](./token.txt) を置く。このファイルには、Zabbix のトークンを入れておく。
 - パッケージ化もしてない手抜きです。ごめんね。
 
 ## 使い方
