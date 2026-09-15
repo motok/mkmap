@@ -186,6 +186,7 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
   ```
 - `mkmap.py` スクリプトが正常に動作すれば、 Zabbix サーバ側に mkmap という名前の
   マップが作成されて、そこにネットワーク図が描かれているはず。
+  <img src="./img/map_created.png" width="45%" alt="map created.">
 - 各オプションの意味する所は次の通り。
   - -z/--url: Zabbix サーバの URL を与える。
     - API 接続時に、この URL の直下に `api_jsonrpc.php` が存在することが期待される。
