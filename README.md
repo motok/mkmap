@@ -249,3 +249,7 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
 - API 経由でホストの情報を取得した時に、`host.host` に「ホスト名」、
   `host.name` に「表示名」が格納される。
 - ここまでの説明でホスト名と言っているのは、「ホスト名」(host.host) の方である。
+
+## ライセンス
+
+[The 3-Clause BSD License](./LICENSE)
