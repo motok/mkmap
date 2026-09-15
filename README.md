@@ -255,7 +255,7 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
 
 ### -o/--output で書き出したネットワーク図の例
 
-<img src="./img/image_file.png" width="45%" alt="image file">
+<img src="./img/image_file.svg" width="45%" alt="image file">
 
 
 ## ライセンス
