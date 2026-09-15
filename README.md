@@ -253,6 +253,11 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
   `host.name` に「表示名」が格納される。
 - ここまでの説明でホスト名と言っているのは、「ホスト名」(host.host) の方である。
 
+### -o/--output で書き出したネットワーク図の例
+
+<img src="./img/image_file.png" width="45%" alt="image file">
+
+
 ## ライセンス
 
 [The 3-Clause BSD License](./LICENSE)
