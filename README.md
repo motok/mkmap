@@ -106,7 +106,7 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
 ## インストール
 
 - Python 3.14 が動く環境を準備して、
-- requirements.txt にある Python パッケージをインストールして、
+- [requirements.txt](./requirements.txt) にある Python パッケージをインストールして、
 - 適当なディレクトリに mkmap.py を置くだけでよいはず。
   - `chmod 755` するのか `python mkmap.py` で動かすのかとか shbang の調整とか。
 - 同じディレクトリに、[token.txt](./token.txt) を置く。このファイルには、Zabbix のトークンを入れておく。
