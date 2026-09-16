@@ -239,10 +239,13 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
   この値 (この例なら `30` の部分) が、我々の言うアイコン ID である。
 - よく使うのはこんな感じ？
   - サーバなら `149`
-    ![149](https://github.com/zabbix/zabbix/blob/master/misc/images/png_modern/Router_symbol_(48).png?raw=true)
+    ![149](https://github.com/zabbix/zabbix/blob/master/misc/images/png_modern/Server_(48).png)
   - ルータなら `129`
+    ![129](https://github.com/zabbix/zabbix/blob/master/misc/images/png_modern/Router_symbol_(48).png?raw=true)
   - スイッチなら `38`
+    ![38](https://github.com/zabbix/zabbix/blob/master/misc/images/png_modern/Switch_(48).png)
   - Zabbix サーバなら `186`
+    ![186](https://github.com/zabbix/zabbix/blob/master/misc/images/png_modern/Zabbix_server_3D_(64).png)
 
 ### ホスト名(host.host)と表示名(host.name)に関する注釈
 
