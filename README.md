@@ -238,7 +238,7 @@ TL;DR: これは、Zabbix で監視中のホスト(群)を Zabbix のマップ�
   このページの URL の末尾に `imageid=30` のような引数が見えるはず。
   この値 (この例なら `30` の部分) が、我々の言うアイコン ID である。
 - よく使うのはこんな感じ？
-  - サーバなら `149`
+  - サーバなら [`149`](https://github.com/zabbix/zabbix/blob/master/misc/images/png_modern/Router_symbol_(48).png?raw=true)
   - ルータなら `129`
   - スイッチなら `38`
   - Zabbix サーバなら `186`
